@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>websocket demo</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript">
+            var ws = new WebSocket("ws://localhost:8080/hello");
+            ws.onopen = function(){                
+                console.log("open");
+                ws.send("你好")
+            }
+            ws.onmessage = function(evt){
+                console.log("onmessage: evt",evt);
+                var list = document.getElementById('list');
+                var e = document.createElement("li");
+                //e.innerHTML='<li>'+evt.data+'</li>';
+                e.innerHTML= evt.data;
+                list.appendChild(e);
+            }
+            ws.onclose = function(){
+                console.log("close");
+            }
+            function sendMsg(){
+                var msgText = document.getElementById('msgText');
+                var msg = msgText.value;
+                console.log("msg",msg);
+                ws.send(msg);
+            }
+            </script>
+    </head>
+    <body>
+        <div>TODO write content</div>
+        <input type="text" id="msgText" /><button onclick="sendMsg()">发送小小</button>
+        <ul id="list">            
+        </ul>
+    </body>
+</html>
